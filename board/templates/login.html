@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{ error }}
+<form action="{% url 'login' %}" method="POST">
+    {% csrf_token %}
+    {% include 'form_errors.html' %}
+    <div>
+      <label for="username">id</label>
+      <input type="text" name="username" id="username">
+        <br>
+        <label for="password">pw</label>
+      <input type="text" name="password" id="password">
+    </div>
+    <input type="submit" value="로그인">
+    <button type="button" onclick="location.href='/' ">돌아가기</button>
+    <button type="button" onclick="location.href={% url 'signup' %} ">회원가입</button>
+</form>
+</body>
+</html>

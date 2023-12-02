@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="{% url 'signup' %}" method="POST">
+    {% csrf_token %}
+    {% include "form_errors.html" %}
+    <label for="username">id</label>
+    <input type="text" name="username" id="username">
+    <br>
+    <label for="password1">pw</label>
+    <input type="text" name="password1" id="password1">
+    <br>
+    <label for="password2">pw check</label>
+    <input type="text" name="password2" id="password2">
+    <br>
+    <label for="email">email</label>
+    <input type="text" name="email" id="email" value="{{ form.email.value|default_if_none:'' }}">
+    <br>
+    <button type="submit" class="btn btn-primary">회원가입</button>
+    <button type="button" onclick="location.href='/login/' ">돌아가기</button>
+</form>
+</body>
+</html>
