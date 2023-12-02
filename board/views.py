@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def home(request):
-    postlist = Post.objects.all()
+    postlist = Post.objects.order_by('-c_date').values()
 
     return render(request, "home.html", {'postlist':postlist})
 
