@@ -41,7 +41,32 @@ def write(request):
 
 
 def modify(request, post_id):
-    return HttpResponse("write")
+    post = Post.objects.get(id=post_id)
+    if not request.user.is_authenticated:
+        return redirect("/login/")
+    else:
+        if post.author != request.user.get_username():
+            return redirect("/post/"+str(post_id))
+        else:
+            if request.method == "POST":
+                post.postname = request.POST['postname']
+                post.contents = request.POST['contents']
+                post.save()
+                return redirect("/post/" + str(post_id))
+            else:
+                return render(request, "modify.html", {'post': post, 'post_id': post_id})
+
+
+def delete(request, post_id):
+    post = Post.objects.get(id=post_id)
+    if not request.user.is_authenticated:
+        return redirect("/login/")
+    else:
+        if post.author != request.user.get_username():
+            return redirect("/post/" + str(post_id))
+        else:
+            post.delete()
+            return redirect("/")
 
 
 def post(request, post_id):

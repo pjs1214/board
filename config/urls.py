@@ -29,4 +29,5 @@ urlpatterns = [
     path('write/', board.views.write, name='write'),
     path('modify/<int:post_id>', board.views.modify, name='modify'),
     path('signup/', board.views.signup, name='signup'),
+    path('delete/<int:post_id>', board.views.delete, name='delete'),
 ]

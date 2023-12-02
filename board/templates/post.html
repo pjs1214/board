@@ -6,7 +6,13 @@
 </head>
 <body>
 {{post.postname}}
-<div align="right">{{post.author}}</div>
+<div align="right">
+    {{post.author}} 작성일:{{post.c_date}} 수정일:{{post.m_date}}
+    <br>
+    <a href="{% url 'delete' post.id %}">삭제</a>
+    |
+    <a href="{% url 'modify' post.id %}">수정</a>
+</div>
 <hr>
 {{post.contents}}
 </body>
