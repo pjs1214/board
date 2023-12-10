@@ -30,4 +30,6 @@ urlpatterns = [
     path('modify/<int:post_id>', board.views.modify, name='modify'),
     path('signup/', board.views.signup, name='signup'),
     path('delete/<int:post_id>', board.views.delete, name='delete'),
+    path('rd/<int:reply_id>', board.views.rd, name='rd'),
+    path('rm/<int:reply_id>', board.views.rm, name='rm')
 ]

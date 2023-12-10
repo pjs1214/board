@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import authenticate, login
 from .forms import UserForm
-from .models import Post
+from .models import Post, Reply
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -71,7 +71,41 @@ def delete(request, post_id):
 
 def post(request, post_id):
     post = Post.objects.get(id=post_id)
-    return render(request, "post.html", {'post':post})
+    if request.method == "POST" and request.POST['submit'] == "reply":
+        if not request.user.is_authenticated:
+            return redirect("/login/")
+        else:
+            r = Reply(post_id=post, author=request.user.get_username(), contents=request.POST['contents'])
+            r.save()
+    reply = Reply.objects.filter(post_id=post_id)
+    return render(request, "post.html", {'post':post, 'reply':reply})
+
+
+def rd(request, reply_id):
+    r = Reply.objects.get(id=reply_id)
+    p_id = r.post_id
+    if not request.user.is_authenticated:
+        return redirect("/login/")
+    else:
+        if r.author != request.user.get_username():
+            return redirect("/post/" + str(p_id))
+        else:
+            r.delete()
+            return redirect("/post/"+str(p_id))
+
+
+def rm(request, reply_id):
+    r = Reply.objects.get(id=reply_id)
+    p_id = r.post_id
+    if not request.user.is_authenticated:
+        return redirect("/login/")
+    else:
+        if r.author != request.user.get_username():
+            return redirect("/post/" + str(p_id))
+        else:
+            r.contents = request.POST['contents']
+            r.save()
+            return redirect("/post/" + str(p_id))
 
 
 def mypage(request):

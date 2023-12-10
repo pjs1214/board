@@ -3,6 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript">
+        var bDisplay = true;
+        function toggle(id){
+            var con = document.getElementById("re"+id);
+            var conn = document.getElementById("rm"+id);
+            if(con.style.display=='none'){
+                con.style.display = 'block';
+                conn.style.display = 'none';
+            }else{
+                con.style.display = 'none';
+                conn.style.display = 'block';
+            }
+        }
+    </script>
 </head>
 <body>
 {{post.postname}}
@@ -15,5 +29,29 @@
 </div>
 <hr>
 {{post.contents}}
+<br><br>
+{% for r in reply %}
+<div id="re{{r.id}}" style="display: block">
+    {{r.author}} 작성일:{{r.c_date}} 수정일:{{r.m_date}} <a href="{% url 'rd' r.id %}">삭제</a> |
+    <button onclick="javascript:toggle({{r.id}});">수정</button><br>
+    {{r.contents}}
+    <br>
+</div>
+<div id="rm{{r.id}}" style="display: none">
+    <form method="POST" action="/rm/{{r.id}}">
+        {% csrf_token %}
+        <textarea rows="10" cols="50" name="contents">{{r.contents}}</textarea>
+        <button type="submit" value="modify" name="submit">수정</button>
+    </form>
+    <button onclick="javascript:toggle({{r.id}});">취소</button>
+</div>
+{% endfor %}
+<br>
+댓글작성
+<form method="POST" action='/post/{{post.id}}'>
+    {% csrf_token %}
+    <textarea rows="10" cols="50" name="contents"></textarea>
+    <button type="submit" value="reply" name="submit">작성</button>
+</form>
 </body>
 </html>
