@@ -16,6 +16,14 @@
                 conn.style.display = 'block';
             }
         }
+        function rtoggle(id){
+            var conn = document.getElementById("rr"+id);
+            if(conn.style.display=='none'){
+                conn.style.display = 'block';
+            }else{
+                conn.style.display = 'none';
+            }
+        }
     </script>
 </head>
 <body>
@@ -31,19 +39,28 @@
 {{post.contents}}
 <br><br>
 {% for r in reply %}
-<div id="re{{r.id}}" style="display: block">
+<div id="re{{r.id}}" style="display: block; padding-left: {{r.depth}}%">
     {{r.author}} 작성일:{{r.c_date}} 수정일:{{r.m_date}} <a href="{% url 'rd' r.id %}">삭제</a> |
-    <button onclick="javascript:toggle({{r.id}});">수정</button><br>
+    <button onclick="javascript:toggle({{r.id}});">수정</button> |
+    <button onclick="javascript:rtoggle({{r.id}});">답글</button><br>
     {{r.contents}}
     <br>
 </div>
-<div id="rm{{r.id}}" style="display: none">
+<div id="rm{{r.id}}" style="display: none; padding-left: {{r.depth}}%">
     <form method="POST" action="/rm/{{r.id}}">
         {% csrf_token %}
         <textarea rows="10" cols="50" name="contents">{{r.contents}}</textarea>
         <button type="submit" value="modify" name="submit">수정</button>
     </form>
     <button onclick="javascript:toggle({{r.id}});">취소</button>
+</div>
+<div id="rr{{r.id}}" style="display: none; padding-left: {{r.depth}}%">
+    <form method="POST" action="/rr/{{r.id}}">
+        {% csrf_token %}
+        <textarea rows="10" cols="50" name="contents"></textarea>
+        <button type="submit" value="rr{{r.id}}" name="submit">답글</button>
+    </form>
+    <button onclick="javascript:rtoggle({{r.id}});">취소</button>
 </div>
 {% endfor %}
 <br>

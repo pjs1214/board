@@ -17,3 +17,8 @@ class Reply(models.Model):
     contents = models.TextField()
     c_date = models.DateTimeField(auto_now_add=True)
     m_date = models.DateTimeField(auto_now=True)
+    re_id = models.ForeignKey("self", on_delete=models.CASCADE, db_column="parent", null=True)
+    depth = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.id)
