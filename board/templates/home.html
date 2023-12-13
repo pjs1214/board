@@ -29,10 +29,12 @@
     <a href="#">이전</a>
     {% endif %}
     {% for page_number in postlist.paginator.page_range %}
+    {% if page_number >= postlist.number|add:-5 and page_number <= postlist.number|add:5 %}
     {% if page_number == postlist.number %}
     <a href="?page={{page_number}}">{{page_number}}</a>
     {% else %}
     <a href="?page={{page_number}}">{{page_number}}</a>
+    {% endif %}
     {% endif %}
     {% endfor %}
     {% if postlist.has_next %}
