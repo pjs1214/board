@@ -36,8 +36,16 @@
     <a href="{% url 'modify' post.id %}">수정</a>
 </div>
 <hr>
-{{post.contents}}
-<br><br>
+{% for img in imgs %}
+<img src="/{{img.img}}" width="200"><br>
+{% endfor %}
+{{post.contents| linebreaksbr }}
+<br>
+{% for f in files %}
+<a href="{% url 'download' f.id %}" download>{{f.name}}</a>
+<br>
+{% endfor %}
+<br>
 {% for r in reply %}
 <div id="re{{r.id}}" style="display: block; padding-left: {{r.depth}}%">
     {{r.author}} 작성일:{{r.c_date}} 수정일:{{r.m_date}} <a href="{% url 'rd' r.id %}">삭제</a> |
@@ -70,5 +78,6 @@
     <textarea rows="10" cols="50" name="contents"></textarea>
     <button type="submit" value="reply" name="submit">작성</button>
 </form>
+<a href="/">돌아가기</a>
 </body>
 </html>

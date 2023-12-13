@@ -1,4 +1,5 @@
 from django.db import models
+import os
 
 # Create your models here.
 class Post(models.Model):
@@ -22,3 +23,16 @@ class Reply(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+class Img(models.Model):
+    post_id = models.ForeignKey("Post", on_delete=models.CASCADE, db_column="post_id")
+    img = models.ImageField(upload_to='images/', blank=True, null=True)
+
+class File(models.Model):
+    post_id = models.ForeignKey("Post", on_delete=models.CASCADE, db_column="post_id")
+    file = models.FileField(upload_to='files/', blank=True, null=True)
+    content_type = models.CharField(max_length=128, null=True)
+    name = models.CharField(max_length=128, null=True)
+
+    def getfilename(self):
+        return os.path.basename(self.file.name)

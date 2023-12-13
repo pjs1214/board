@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth import views as auth_views
 import board.views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', board.views.home),
@@ -33,4 +35,5 @@ urlpatterns = [
     path('rd/<int:reply_id>', board.views.rd, name='rd'),
     path('rm/<int:reply_id>', board.views.rm, name='rm'),
     path('rr/<int:reply_id>', board.views.rr, name='rr'),
-]
+    path('download/<int:file_id>', board.views.download, name='download'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

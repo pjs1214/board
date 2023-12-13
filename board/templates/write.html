@@ -6,13 +6,16 @@
 </head>
 <body>
 {{error}}
-<form method="POST" action=".">
+<form method="POST" action="." enctype="multipart/form-data">
     {% csrf_token %}
     <label for="postname">제목</label>
     <input type="text" name="postname" id="postname">
     <br>
     <label for="contents">내용</label>
     <textarea rows="10" cols="50" name="contents" id="contents"></textarea>
+    <br>
+    사진 <input type="file" name="imgs" multiple><br>
+    첨부파일 <input type="file" name="files" multiple>
     <br>
     <button type="submit" class="btn btn-primary">등록</button>
     <button type="button" onclick="location.href='/' ">돌아가기</button>

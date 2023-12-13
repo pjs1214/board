@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div align="right">
+    <a href="/">돌아가기</a>
+</div>
+<hr>
+<table>
+    {% for list in postlist %}
+    <a href="{% url 'post' list.id %}">{{list.postname}}</a>
+    <hr>
+    {% endfor %}
+</table>
+<ul>
+    {% if postlist.has_previous %}
+    <a href="?page={{postlist.previous_page_number}}&rpage={{rpage}}">이전</a>
+    {% else %}
+    <a href="#">이전</a>
+    {% endif %}
+    {% for page_number in postlist.paginator.page_range %}
+    {% if page_number == postlist.number %}
+    <a href="?page={{page_number}}&rpage={{rpage}}">{{page_number}}</a>
+    {% else %}
+    <a href="?page={{page_number}}&rpage={{rpage}}">{{page_number}}</a>
+    {% endif %}
+    {% endfor %}
+    {% if postlist.has_next %}
+    <a href="?page={{postlist.next_page_number}}&rpage={{rpage}}">다음</a>
+    {% else %}
+    <a href="#">다음</a>
+    {% endif %}
+</ul>
+<hr>
+<table>
+    {% for list in replylist %}
+    <a href="{% url 'post' list.post_id.id %}">{{list.post_id.postname}}</a>
+    <br>
+    {{list.contents}}
+    <hr>
+    {% endfor %}
+</table>
+<ul>
+    {% if replylist.has_previous %}
+    <a href="?page={{page}}&rpage={{replylist.previous_page_number}}">이전</a>
+    {% else %}
+    <a href="#">이전</a>
+    {% endif %}
+    {% for page_number in replylist.paginator.page_range %}
+    {% if page_number == replylist.number %}
+    <a href="?page={{page}}&rpage={{page_number}}">{{page_number}}</a>
+    {% else %}
+    <a href="?page={{page}}&rpage={{page_number}}">{{page_number}}</a>
+    {% endif %}
+    {% endfor %}
+    {% if replylist.has_next %}
+    <a href="?page={{page}}&rpage={{replylist.next_page_number}}">다음</a>
+    {% else %}
+    <a href="#">다음</a>
+    {% endif %}
+</ul>
+</body>
+</html>

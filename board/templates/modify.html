@@ -3,16 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript">
+        var bDisplay = true;
+        function toggle(){
+            var conn = document.getElementById("imgupload");
+            if(conn.style.display=='none'){
+                conn.style.display = 'block';
+            }else{
+                conn.style.display = 'none';
+            }
+        }
+        function ftoggle(){
+            var conn = document.getElementById("fileupload");
+            if(conn.style.display=='none'){
+                conn.style.display = 'block';
+            }else{
+                conn.style.display = 'none';
+            }
+        }
+    </script>
 </head>
 <body>
 {{error}}
-<form method="POST" action="/modify/{{post_id}}">
+<form method="POST" action="/modify/{{post_id}}" enctype="multipart/form-data">
     {% csrf_token %}
     <label for="postname">제목</label>
     <input type="text" name="postname" id="postname" value="{{post.postname}}">
     <br>
     <label for="contents">내용</label>
     <textarea rows="10" cols="50" name="contents" id="contents">{{post.contents}}</textarea>
+    <br>
+    <input type="hidden" name="chkimg" value="imgnochange">
+    <input type="checkbox" onclick="javascript:toggle()" name="chkimg" value="imgchange">이미지변경/삭제
+    <div id="imgupload" style="display: none;">
+        <input type="file" name="imgs" multiple>
+    </div>
+    <br>
+    <input type="hidden" name="chkfile" value="filenochange">
+    <input type="checkbox" onclick="javascript:ftoggle()" name="chkfile" value="filechange">첨부파일변경/삭제
+    <div id="fileupload" style="display: none;">
+        <input type="file" name="files" multiple>
+    </div>
     <br>
     <button type="submit" class="btn btn-primary">등록</button>
     <button type="button" onclick="location.href='/post/{{post_id}}'">돌아가기</button>
